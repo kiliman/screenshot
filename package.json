@@ -1,0 +1,38 @@
+{
+  "name": "@kiliman/screenshot",
+  "version": "0.1.0",
+  "description": "Generate screenshots from HTML files using Playwright",
+  "type": "module",
+  "bin": {
+    "screenshot": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [
+    "screenshot",
+    "html",
+    "playwright",
+    "cli",
+    "image-generation"
+  ],
+  "author": "Michael Carter",
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.48.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280, height=640">
+  <title>@kiliman/screenshot Social Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 1280px;
+      height: 640px;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a0b2e 0%, #3b1e54 50%, #1a0b2e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated background elements */
+    .bg-gradient {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 50%, rgba(192, 132, 252, 0.15) 0%, transparent 50%);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 0.8; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 80px;
+      padding: 80px;
+    }
+
+    .logo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 240px;
+      line-height: 1;
+      filter: drop-shadow(0 20px 60px rgba(168, 85, 247, 0.5));
+    }
+
+    .content {
+      flex: 1;
+      max-width: 700px;
+    }
+
+    .title {
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #9333ea 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 42px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 25px;
+      line-height: 1.2;
+    }
+
+    .description {
+      font-size: 28px;
+      color: #ddd6fe;
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: rgba(168, 85, 247, 0.2);
+      border: 2px solid rgba(168, 85, 247, 0.4);
+      border-radius: 50px;
+      font-size: 22px;
+      color: #c084fc;
+      font-weight: 600;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 30px;
+      left: 80px;
+      right: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #7c3aed;
+      font-size: 20px;
+    }
+
+    .footer-left {
+      font-weight: 600;
+    }
+
+    .footer-right {
+      color: #a78bfa;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+
+  <div class="container">
+    <div class="logo-section">
+      <div class="logo">📸</div>
+    </div>
+
+    <div class="content">
+      <div class="title">@kiliman/screenshot</div>
+      <div class="subtitle">Generate High-Quality Screenshots</div>
+      <div class="description">
+        Transform HTML files into beautiful images. Fast, simple, and powered by Playwright.
+      </div>
+      <div class="badge">
+        🎨 Retina Quality • Zero Config
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">github.com/kiliman/screenshot</div>
+    <div class="footer-right">From Claudia, with Love ❤️</div>
+  </div>
+</body>
+</html>
