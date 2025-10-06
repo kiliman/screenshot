@@ -1,7 +1,7 @@
 # @kiliman/screenshot
 
 <p align="center">
-  <img src="assets/social-preview.jpg" alt="@kiliman/screenshot" width="100%" />
+  <img src="https://raw.githubusercontent.com/kiliman/screenshot/refs/heads/main/assets/social-preview.jpg" alt="@kiliman/screenshot" width="100%" />
 </p>
 
 Generate high-quality screenshots from HTML files using Playwright.
@@ -39,6 +39,11 @@ npx @kiliman/screenshot page.html screenshot.png
 # Use JPEG format
 npx @kiliman/screenshot page.html --format jpg
 
+# Use size presets for common social media platforms
+npx @kiliman/screenshot page.html --size github
+npx @kiliman/screenshot page.html --size og --format jpg
+npx @kiliman/screenshot page.html --size twitter
+
 # Custom dimensions
 npx @kiliman/screenshot page.html --width 1920 --height 1080
 
@@ -46,7 +51,27 @@ npx @kiliman/screenshot page.html --width 1920 --height 1080
 npx @kiliman/screenshot page.html --outdir ./screenshots
 
 # Real example: The social preview image above was generated using this package!
-npx @kiliman/screenshot assets/social-preview.html social-preview.jpg --outdir assets --width 1280 --height 640 --format jpg
+npx @kiliman/screenshot assets/social-preview.html social-preview.jpg --outdir assets --size github --format jpg
+```
+
+### Size Presets
+
+Use `--size` to quickly generate screenshots optimized for different platforms:
+
+| Preset      | Dimensions   | Description                          |
+|-------------|--------------|--------------------------------------|
+| `github`    | 1280×640     | GitHub social preview                |
+| `og`        | 1200×630     | Open Graph (Facebook, LinkedIn)      |
+| `twitter`   | 1200×675     | Twitter/X card                       |
+| `instagram` | 1080×1080    | Instagram post (square)              |
+| `hd`        | 1920×1080    | HD/Full HD                           |
+| `4k`        | 3840×2160    | 4K/Ultra HD                          |
+
+You can override preset dimensions with `--width` and `--height`:
+
+```bash
+# Use Twitter preset but make it wider
+npx @kiliman/screenshot page.html --size twitter --width 1600
 ```
 
 ### CLI Options
@@ -59,11 +84,14 @@ Arguments:
   OUT_FILE              Output filename (optional, default: basename.format)
 
 Options:
-  --outdir DIR          Output directory (default: current directory)
-  --format FORMAT       Image format: png, jpg, jpeg (default: png)
+  --size PRESET         Use a size preset (github, og, twitter, instagram, hd, 4k)
   --width WIDTH         Viewport width in pixels (default: 1280)
   --height HEIGHT       Viewport height in pixels (default: 720)
+  --format FORMAT       Image format: png, jpg, jpeg (default: png)
+  --outdir DIR          Output directory (default: current directory)
   --help, -h            Show help message
+
+Note: --width and --height override --size preset values
 ```
 
 ## Programmatic Usage
@@ -73,6 +101,14 @@ You can also use this package programmatically in your Node.js projects:
 ```typescript
 import { generateScreenshot } from '@kiliman/screenshot';
 
+// Using size preset
+await generateScreenshot('page.html', 'output.png', {
+  size: 'github',
+  format: 'jpg',
+  outdir: './screenshots'
+});
+
+// Using custom dimensions
 await generateScreenshot('page.html', 'output.png', {
   width: 1920,
   height: 1080,
@@ -92,8 +128,9 @@ Generates a screenshot from an HTML file.
 - `htmlFile` (string, required): Path to the HTML file
 - `outputFile` (string, optional): Output filename (default: basename + format extension)
 - `options` (object, optional):
-  - `width` (number): Viewport width in pixels (default: 1280)
-  - `height` (number): Viewport height in pixels (default: 720)
+  - `size` ('github' | 'og' | 'twitter' | 'instagram' | 'hd' | '4k'): Size preset
+  - `width` (number): Viewport width in pixels (default: 1280, overrides size preset)
+  - `height` (number): Viewport height in pixels (default: 720, overrides size preset)
   - `format` ('png' | 'jpg' | 'jpeg'): Image format (default: 'png')
   - `outdir` (string): Output directory (default: current directory)
   - `quality` (number): JPEG quality 0-100 (default: 85, only for JPEG)

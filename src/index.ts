@@ -2,9 +2,21 @@ import { chromium } from "playwright";
 import { basename, resolve } from "node:path";
 import { existsSync } from "node:fs";
 
+export type SizePreset = "github" | "og" | "twitter" | "instagram" | "hd" | "4k";
+
+export const SIZE_PRESETS: Record<SizePreset, { width: number; height: number }> = {
+  github: { width: 1280, height: 640 },
+  og: { width: 1200, height: 630 },
+  twitter: { width: 1200, height: 675 },
+  instagram: { width: 1080, height: 1080 },
+  hd: { width: 1920, height: 1080 },
+  "4k": { width: 3840, height: 2160 },
+};
+
 export interface ScreenshotOptions {
   width?: number;
   height?: number;
+  size?: SizePreset;
   format?: "png" | "jpg" | "jpeg";
   outdir?: string;
   quality?: number;
@@ -15,8 +27,10 @@ export async function generateScreenshot(
   outputFile?: string,
   options: ScreenshotOptions = {}
 ): Promise<string> {
-  const width = options.width || 1280;
-  const height = options.height || 720;
+  // Apply size preset if provided
+  const presetSize = options.size ? SIZE_PRESETS[options.size] : null;
+  const width = options.width ?? presetSize?.width ?? 1280;
+  const height = options.height ?? presetSize?.height ?? 720;
   const format = options.format || "png";
   const quality = options.quality || 85;
 

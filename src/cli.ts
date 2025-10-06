@@ -1,11 +1,20 @@
 #!/usr/bin/env node
 
-import { generateScreenshot, type ScreenshotOptions } from "./index.js";
+import {
+  generateScreenshot,
+  SIZE_PRESETS,
+  type ScreenshotOptions,
+  type SizePreset,
+} from "./index.js";
 
 async function main() {
   const args = process.argv.slice(2);
 
   if (args.length === 0 || args.includes("--help") || args.includes("-h")) {
+    const sizeList = Object.entries(SIZE_PRESETS)
+      .map(([name, size]) => `    ${name.padEnd(10)} ${size.width}x${size.height}`)
+      .join("\n");
+
     console.log(`
 Usage: npx @kiliman/screenshot HTML_FILE [OUT_FILE] [OPTIONS]
 
@@ -14,14 +23,21 @@ Arguments:
   OUT_FILE              Output filename (optional, default: basename.format)
 
 Options:
-  --outdir DIR          Output directory (default: current directory)
-  --format FORMAT       Image format: png, jpg, jpeg (default: png)
+  --size PRESET         Use a size preset (see below)
   --width WIDTH         Viewport width in pixels (default: 1280)
   --height HEIGHT       Viewport height in pixels (default: 720)
+  --format FORMAT       Image format: png, jpg, jpeg (default: png)
+  --outdir DIR          Output directory (default: current directory)
   --help, -h            Show this help message
 
+Size Presets:
+${sizeList}
+
+Note: --width and --height override --size preset values
+
 Examples:
-  npx @kiliman/screenshot page.html
+  npx @kiliman/screenshot page.html --size github
+  npx @kiliman/screenshot page.html --size og --format jpg
   npx @kiliman/screenshot page.html output.png
   npx @kiliman/screenshot page.html --format jpg --width 1920 --height 1080
   npx @kiliman/screenshot page.html screenshot.png --outdir ./screenshots
@@ -42,7 +58,17 @@ Examples:
   for (let i = 1; i < args.length; i++) {
     const arg = args[i];
 
-    if (arg === "--outdir" && args[i + 1]) {
+    if (arg === "--size" && args[i + 1]) {
+      const sizePreset = args[i + 1] as SizePreset;
+      if (SIZE_PRESETS[sizePreset]) {
+        options.size = sizePreset;
+      } else {
+        const validSizes = Object.keys(SIZE_PRESETS).join(", ");
+        console.error(`Invalid size preset: ${sizePreset}. Valid options: ${validSizes}`);
+        process.exit(1);
+      }
+      i++;
+    } else if (arg === "--outdir" && args[i + 1]) {
       options.outdir = args[i + 1];
       i++;
     } else if (arg === "--format" && args[i + 1]) {
